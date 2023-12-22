@@ -8,9 +8,13 @@ app.get("/deploy", (req, res) => {
     if (authorization !== process.env.token) {
         return res.status(401).send({message: "Authorization failed"})
     }
-    const command = "cd ~/cloud && docker-compose pull && docker-compose up -d";
+    const command = `sudo -s <<EOF
+    cd ~/cloud
+    sudo docker-compose pull
+    sudo docker-compose up -d`;
     child_process.exec(command, (error, stdout) => {
         if (error) {
+            console.log(error)
             return res.status(500).send({message: "Failed to deploy server"})
         }
         return res.send({message: "Successfully deployed servers"})
