@@ -2,4 +2,5 @@
 
 sudo apt update
 sudo apt install nodejs npm
-node .
+npm install
+npm start
